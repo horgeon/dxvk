@@ -67,7 +67,7 @@ namespace dxvk::bit {
   }
   
   inline uint32_t tzcnt(uint32_t n) {
-    #if defined(_MSC_VER) && !defined(__clang__)
+    #if defined(_MSC_VER) && !defined(__clang__) && !defined(DXVK_ARCH_ARM64)
     return _tzcnt_u32(n);
     #elif defined(__BMI__)
     return __tzcnt_u32(n);
@@ -133,7 +133,7 @@ namespace dxvk::bit {
   }
 
   inline uint32_t lzcnt(uint32_t n) {
-    #if (defined(_MSC_VER) && !defined(__clang__)) || defined(__LZCNT__)
+    #if (defined(_MSC_VER) && !defined(__clang__) && !defined(DXVK_ARCH_ARM64)) || defined(__LZCNT__)
     return _lzcnt_u32(n);
     #elif defined(__GNUC__) || defined(__clang__)
     return n != 0 ? __builtin_clz(n) : 32;

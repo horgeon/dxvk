@@ -24,7 +24,11 @@ namespace dxvk::sync {
         #if defined(DXVK_ARCH_X86)
         _mm_pause();
         #elif defined(DXVK_ARCH_ARM64)
+        #if defined(_MSC_VER) && !defined(__clang__)
+        __yield();
+        #else
         __asm__ __volatile__ ("yield");
+        #endif
         #else
         #error "Pause/Yield not implemented for this architecture."
         #endif
